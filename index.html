@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Gods of War Fit — Programme</title>
+<meta content="Programme GYM/Muscu premium : Modules, Offres (Complet, Nutrition, Coaching 1:1), Bonus et FAQ anti‑objections (12 semaines)." name="description"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+    body{background:#0a0a0b;color:#e5e7eb}
+    .no-scrollbar::-webkit-scrollbar{display:none}
+    .no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+    /* FAQ open glow + arrow animation */
+    .faq-card{transition:box-shadow .35s ease,border-color .35s ease,background-color .35s ease}
+    .faq-card[open]{box-shadow:0 0 0 2px rgba(16,185,129,.55),0 10px 30px -10px rgba(16,185,129,.35);border-color:rgba(16,185,129,.55);background-color:rgba(16,185,129,.03)}
+    .faq-summary{display:flex;align-items:center;justify-content:space-between;gap:.75rem;cursor:pointer}
+    .faq-chevron{transition:transform .3s ease,opacity .3s ease;opacity:.9}
+    .faq-card[open] .faq-chevron{transform:rotate(180deg)}
+  
+/* --- Mobile fixes (applied by ChatGPT) --- */
+@media (max-width: 640px) {
+  #gwfPrev, #gwfNext, #testiLeft, #testiRight {
+    display: flex !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    z-index: 50 !important;
+  }
+  [data-suffix="/5"] {
+    font-size: 1.125rem !important;
+    line-height: 1.25rem !important;
+  }
+}
+#gwfPrev, #gwfNext, #testiLeft, #testiRight {
+  min-width: 44px;
+  min-height: 44px;
+  touch-action: manipulation;
+}
+
+
+/* --- Arrow circle hard-centering fix --- */
+#gwfPrev, #gwfNext {
+  width: 52px !important;
+  height: 52px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 9999px !important;
+  padding: 0 !important;
+  line-height: 0 !important;
+}
+#gwfPrev svg, #gwfNext svg {
+  display: block !important;
+  margin: 0 !important;
+}
+@media (max-width: 640px) {
+  #gwfPrev, #gwfNext {
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+  }
+}
+
+</style>
+<style>
+#offers .price-yearly, #offers .old-yearly { display: none; }
+#offers[data-billing="annual"] .price-monthly,
+#offers[data-billing="annual"] .old-monthly { display: none; }
+#offers[data-billing="annual"] .price-yearly,
+#offers[data-billing="annual"] .old-yearly { display: inline; }
+</style>
+<style>
+/* Premium BG — Subtle Carbon Fiber */
+html, body { height: 100%; }
+body {
+  background:
+    radial-gradient(1200px 800px at -10% 0%, rgba(16,185,129,0.05), transparent 60%),
+    radial-gradient(1200px 800px at 110% 100%, rgba(255,255,255,0.04), transparent 60%),
+    repeating-linear-gradient(45deg,
+      rgba(20,20,22,0.9) 0px, rgba(20,20,22,0.9) 2px,
+      rgba(12,12,14,0.9) 2px, rgba(12,12,14,0.9) 4px),
+    linear-gradient(180deg, #0b0b0d, #0f0f11 40%, #070708 100%);
+  background-blend-mode: normal, normal, multiply, normal;
+}
+</style>
+
+<style id="mobile-offers-carousel">
+/* Mobile-only Offers Carousel (<=640px). Does not affect desktop. */
+@media (max-width: 640px) {
+  /* Ensure section doesn't clip badges/bubbles that overflow cards */
+  #offers { overflow: visible; }
+
+  /* Turn the offers grid into a horizontal carousel you can swipe */
+  #offers .offers-grid {
+    display: flex !important;
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 1.25rem; /* keep existing spacing */
+    padding: 0 .75rem; /* small side padding so bubbles aren't cut on edges */
+  }
+  #offers .offers-grid::-webkit-scrollbar { display: none; }
+  /* Each card is a slide */
+  #offers .offers-grid > * {
+    flex: 0 0 88%;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    /* Let badges that sit slightly outside remain visible */
+    overflow: visible;
+  }
+}
+</style>
+
+</head>
+<body class="bg-zinc-950">
+<!-- Reading progress bar -->
+<div class="fixed top-0 left-0 z-50 h-0.5 w-0 bg-emerald-500" id="progress"></div>
+<!-- NAV -->
+<header class="fixed inset-x-0 top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-zinc-950/60">
+<div class="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+<div class="flex h-16 items-center justify-between">
+<a class="mt-auto font-extrabold tracking-wider text-white" href="#top">GODS <span class="text-emerald-400">OF WAR</span> FIT</a>
+<nav class="hidden gap-6 text-sm md:flex" id="desktopNav">
+<a class="mt-auto text-zinc-200 hover:text-emerald-400" data-spy="offers" href="#offers">Offres</a>
+<a class="mt-auto text-zinc-200 hover:text-emerald-400" data-spy="bonus" href="#bonus">Bonus</a>
+<a class="mt-auto text-zinc-200 hover:text-emerald-400" data-spy="modules" href="#modules">Modules</a>
+<a class="mt-auto text-zinc-200 hover:text-emerald-400" data-spy="faq" href="#faq">FAQ</a>
+</nav>
+<div class="hidden md:block">
+<a class="mt-auto inline-flex items-center justify-center rounded-2xl bg-emerald-500 px-5 py-3 text-sm font-semibold text-zinc-900 shadow-[0_10px_30px_-10px_rgba(16,185,129,0.7)] hover:bg-emerald-400" href="#offers">Rejoindre maintenant</a>
+</div>
+<button class="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 text-white md:hidden" id="menuBtn">☰</button>
+</div>
+</div>
+<div class="hidden border-t border-white/10 bg-zinc-950/95 md:hidden" id="mobileNav">
+<div class="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+<div class="flex flex-col gap-2 py-3 text-zinc-200">
+<a class="mt-auto rounded-xl px-2 py-2" data-spy="offers" href="#offers">Offres</a>
+<a class="mt-auto rounded-xl px-2 py-2" data-spy="bonus" href="#bonus">Bonus</a>
+<a class="mt-auto rounded-xl px-2 py-2" data-spy="modules" href="#modules">Modules</a>
+<a class="mt-auto rounded-xl px-2 py-2" data-spy="faq" href="#faq">FAQ</a>
+<a class="mt-auto mt-1 inline-flex items-center justify-center rounded-2xl bg-emerald-500 px-5 py-3 text-sm font-semibold text-zinc-900 hover:bg-emerald-400" href="#offers">Rejoindre maintenant</a>
+</div>
+</div>
+</div>
+</header>
+<!-- HERO -->
+<section class="relative isolate overflow-hidden bg-gradient-to-b from-zinc-950 via-zinc-950 to-black pt-28" id="top">
+<!-- Background image -->
+<div class="pointer-events-none absolute inset-0 -z-10 opacity-20" style="background: center/cover no-repeat"></div>
+<div class="mx-auto grid w-full max-w-6xl items-center gap-10 px-4 py-16 sm:px-6 md:grid-cols-2 md:py-24 lg:px-8">
+<div class="space-y-6">
+<span class="rounded-full bg-emerald-500/10 px-2.5 py-1 text-xs font-semibold text-emerald-400 ring-1 ring-inset ring-emerald-500/30">Résultats mesurables en 12 semaines</span>
+<h1 class="text-4xl font-extrabold leading-tight text-white sm:text-5xl">Forger le corps. Maîtriser l’esprit. <span class="text-emerald-400">Régner</span> sur ta vie</h1>
+<p class="max-w-xl text-lg text-zinc-300">Ton pire ennemi n’est pas dehors. Il est le reflet de ton miroir.</p>
+<div class="flex flex-wrap gap-3">
+<a class="mt-auto inline-flex items-center justify-center rounded-2xl bg-emerald-500 px-5 py-3 text-sm font-semibold text-zinc-900 shadow-[0_10px_30px_-10px_rgba(16,185,129,0.7)] hover:bg-emerald-400" href="#offers">Voir les formules</a>
+<a class="mt-auto inline-flex items-center justify-center rounded-2xl bg-zinc-800/60 px-5 py-3 text-sm font-semibold text-zinc-100 ring-1 ring-inset ring-white/10 hover:bg-zinc-800/80" href="#modules">Explorer le programme</a>
+</div>
+<div class="mt-4 grid grid-cols-3 gap-3">
+<div class="rounded-2xl bg-zinc-900/60 p-4 ring-1 ring-inset ring-white/10"><div class="text-2xl font-extrabold text-white" data-count="" data-decimals="0" data-prefix="+" data-suffix=" kg" data-target="7">0</div><div class="text-xs uppercase tracking-widest text-zinc-400">Muscle la 1ère année*</div></div>
+<div class="rounded-2xl bg-zinc-900/60 p-4 ring-1 ring-inset ring-white/10"><div class="text-2xl font-extrabold text-white" data-count="" data-decimals="0" data-prefix="-" data-suffix=" kg" data-target="8">0</div><div class="text-xs uppercase tracking-widest text-zinc-400">Graisse en 12 sem*</div></div>
+<div class="rounded-2xl bg-zinc-900/60 p-4 ring-1 ring-inset ring-white/10"><div class="text-2xl font-extrabold text-white" data-count="" data-decimals="1" data-suffix="/5" data-target="4.8">0</div><div class="text-xs uppercase tracking-widest text-zinc-400">Satisfaction</div></div>
+</div>
+<p class="text-xs text-zinc-500">*Données internes moyennes. Les résultats varient selon point de départ &amp; application honnête.</p>
+</div>
+<!-- Side image -->
+<div class="relative aspect-[4/5] w-full overflow-hidden rounded-3xl ring-1 ring-emerald-400/20 shadow-[0_0_40px_rgba(16,185,129,0.20)] transition-transform duration-500 ease-out hover:scale-[1.02] hover:shadow-[0_0_90px_rgba(16,185,129,0.35)] before:absolute before:-inset-10 before:-z-10 before:rounded-[2.2rem] before:bg-emerald-500/10 before:blur-2xl before:content-['']">
+<img alt="Team entraînement" class="h-full w-full brightness-[0.9] saturate-110 object-cover object-center" src="assets/hero-encadre.jpg"/>
+<div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-zinc-950/70 via-zinc-950/10 to-transparent mix-blend-normal"></div>
+<div class="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/10 rounded-3xl"></div>
+</div>
+</div>
+</section>
+<!-- MODULES (Horizontal) -->
+<section id="transformations" class="pt-10 pb-12 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.06),transparent_60%)]">
+  <div class="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8">
+    <div class="mb-8 text-center space-y-2">
+      <p class="text-xs uppercase tracking-[0.25em] text-emerald-400/80">Transformations</p>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Avant / Après - De l’Ombre à la Gloire</h2>
+      <p class="text-zinc-300/80">Une image par slide. Fais défiler avec les flèches.</p>
+    </div>
+
+    <div class="relative mx-auto max-w-4xl">
+      <!-- Track -->
+      <div id="gwfTrack" class="overflow-hidden rounded-3xl ring-1 ring-inset ring-white/10 bg-zinc-900/40">
+        <div id="gwfSlides" class="flex transition-transform duration-500 ease-out">
+<div class="min-w-full aspect-[4/3] max-h-[520px] bg-black/50">
+  <img src="assets/transformations/01-IMG_3281.jpg" alt="Transformation 1" class="w-full h-full object-contain object-center">
+</div>
+<div class="min-w-full aspect-[4/3] max-h-[520px] bg-black/50">
+  <img src="assets/transformations/02-IMG_3282.jpg" alt="Transformation 2" class="w-full h-full object-contain object-center">
+</div>
+<div class="min-w-full aspect-[4/3] max-h-[520px] bg-black/50">
+  <img src="assets/transformations/03-IMG_3284.jpg" alt="Transformation 3" class="w-full h-full object-contain object-center">
+</div>
+<div class="min-w-full aspect-[4/3] max-h-[520px] bg-black/50">
+  <img src="assets/transformations/04-IMG_3285.jpg" alt="Transformation 4" class="w-full h-full object-contain object-center">
+</div>
+<div class="min-w-full aspect-[4/3] max-h-[520px] bg-black/50">
+  <img src="assets/transformations/05-capture-183534.png" alt="Transformation 5" class="w-full h-full object-contain object-center">
+</div>
+<div class="min-w-full aspect-[4/3] max-h-[520px] bg-black/50">
+  <img src="assets/transformations/06-capture-183626.png" alt="Transformation 6" class="w-full h-full object-contain object-center">
+</div>
+<div class="min-w-full aspect-[4/3] max-h-[520px] bg-black/50">
+  <img src="assets/transformations/07-capture-183714.png" alt="Transformation 7" class="w-full h-full object-contain object-center">
+</div>
+<div class="min-w-full aspect-[4/3] max-h-[520px] bg-black/50">
+  <img src="assets/transformations/08-capture-183755.png" alt="Transformation 8" class="w-full h-full object-contain object-center">
+</div>
+<div class="min-w-full aspect-[4/3] max-h-[520px] bg-black/50">
+  <img src="assets/transformations/09-capture-184417.png" alt="Transformation 9" class="w-full h-full object-contain object-center">
+</div>
+<div class="min-w-full aspect-[4/3] max-h-[520px] bg-black/50">
+  <img src="assets/transformations/10-capture-184501.png" alt="Transformation 10" class="w-full h-full object-contain object-center">
+</div>
+<div class="min-w-full aspect-[4/3] max-h-[520px] bg-black/50">
+  <img src="assets/transformations/11-capture-184537.png" alt="Transformation 11" class="w-full h-full object-contain object-center">
+</div>
+<div class="min-w-full aspect-[4/3] max-h-[520px] bg-black/50">
+  <img src="assets/transformations/12-capture-184558.png" alt="Transformation 12" class="w-full h-full object-contain object-center">
+</div>
+        </div>
+      </div>
+
+      <!-- Arrows -->
+      <button id="gwfPrev" class="group absolute left-3 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-500/30 hover:bg-emerald-500/25 hover:text-emerald-200 backdrop-blur">
+        <svg class="mx-auto h-5 w-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button id="gwfNext" class="group absolute right-3 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-500/30 hover:bg-emerald-500/25 hover:text-emerald-200 backdrop-blur">
+        <svg class="mx-auto h-5 w-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+
+    <!-- Dots -->
+    <div id="gwfDots" class="mt-4 flex items-center justify-center gap-2 select-none" aria-label="Pagination transformations"></div>
+
+    <p class="mt-3 text-xs text-zinc-500 text-center">Photos fournies par les membres. Résultats individuels variables selon point de départ et assiduité.</p>
+  </div>
+</section>
+<!-- KPI band -->
+<section class="py-10" id="kpis">
+<div class="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-2 gap-3 md:grid-cols-4">
+<div class="rounded-2xl bg-zinc-900/60 p-4 ring-1 ring-inset ring-white/10"><div class="text-2xl font-extrabold text-white" data-count="" data-suffix="+" data-target="120">0</div><div class="text-xs uppercase tracking-widest text-zinc-400">Membres actifs</div></div>
+<div class="rounded-2xl bg-zinc-900/60 p-4 ring-1 ring-inset ring-white/10"><div class="text-2xl font-extrabold text-white" data-count="" data-suffix=" sem" data-target="12">0</div><div class="text-xs uppercase tracking-widest text-zinc-400">Programme structuré</div></div>
+<div class="rounded-2xl bg-zinc-900/60 p-4 ring-1 ring-inset ring-white/10"><div class="text-2xl font-extrabold text-white" data-count="" data-suffix="%" data-target="55">0</div><div class="text-xs uppercase tracking-widest text-zinc-400">Utilisent le programme en home training</div></div>
+<div class="rounded-2xl bg-zinc-900/60 p-4 ring-1 ring-inset ring-white/10"><div class="text-2xl font-extrabold text-white" data-count="" data-suffix="%" data-target="45">0</div><div class="text-xs uppercase tracking-widest text-zinc-400">L’appliquent en salle de sport</div></div>
+</div>
+</div>
+</section>
+<!-- OFFERS -->
+<section class="relative isolate bg-zinc-950 py-20" data-billing="monthly" id="offers">
+<div class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.03),transparent_60%)]"></div>
+<div class="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+<div class="mb-10 space-y-3 text-center">
+<p class="text-xs uppercase tracking-[0.25em] text-emerald-400/80">Formules</p>
+<h2 class="text-3xl font-extrabold text-white sm:text-4xl">Choisis ton angle d’attaque</h2>
+<p class="mx-auto max-w-2xl text-zinc-300/80"></p>
+</div>
+<div class="flex items-center justify-center mb-10 select-none gap-3">
+<span class="text-sm font-medium text-zinc-500" id="lblMonthly">Mensuel</span>
+<button aria-pressed="false" class="relative inline-flex h-7 w-14 items-center rounded-full bg-zinc-700 transition-colors focus:outline-none ring-1 ring-inset ring-white/10" id="billingToggle" type="button">
+<span class="inline-block h-5 w-5 translate-x-1 transform rounded-full bg-white shadow transition-transform" id="billingKnob"></span>
+</button>
+<span class="text-sm font-medium text-zinc-500" id="lblYearly">Annuel</span>
+<span class="text-xs text-emerald-400">(2 mois offerts)</span>
+</div>
+<div class="grid gap-5 md:grid-cols-3 offers-grid">
+<!-- Nutrition seule (LEFT) -->
+<div class="relative flex h-full flex-col rounded-3xl bg-zinc-900/40 p-6 ring-1 ring-inset ring-white/10">
+<div class="mb-4 flex items-center justify-between">
+<h3 class="text-xl font-extrabold text-white">Nutrition seule</h3>
+</div>
+<div class="mb-4 text-3xl font-extrabold text-emerald-400"><span class="price"><span class="price-monthly">25€ / mois</span><span class="price-yearly">250€ / an</span></span></div>
+<ul class="list-none pl-0 mb-6 space-y-2 text-zinc-300">
+<li class="flex items-center gap-3 text-zinc-300 min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></span><span>Module 3 Nutrition &amp; Métabolisme + extraits sommeil/récup</span></li>
+<li class="flex items-center gap-3 text-zinc-300 min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></span><span>Macros &amp; chrono-nutrition expliqués simplement</span></li>
+<li class="flex items-center gap-3 text-zinc-300 min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></span><span>Listes de courses &amp; modèles de journées</span></li>
+<li class="flex items-center gap-3 text-zinc-300 min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></span><span>Checklists hebdo</span></li>
+<li class="flex items-center gap-3 text-zinc-500 line-through min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-amber-500/10 text-amber-400 ring-1 ring-inset ring-amber-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg></span><span class="decoration-zinc-500/80">Modules 1–7 complets + mises à jour illimitées</span></li>
+<li class="flex items-center gap-3 text-zinc-500 line-through min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-amber-500/10 text-amber-400 ring-1 ring-inset ring-amber-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg></span><span class="decoration-zinc-500/80">Plans 12 semaines (3 niveaux)</span></li>
+<li class="flex items-center gap-3 text-zinc-500 line-through min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-amber-500/10 text-amber-400 ring-1 ring-inset ring-amber-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg></span><span class="decoration-zinc-500/80">Plans 3/4/5 séances</span></li>
+<li class="flex items-center gap-3 text-zinc-500 line-through min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-amber-500/10 text-amber-400 ring-1 ring-inset ring-amber-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg></span><span class="decoration-zinc-500/80">Carnets Sheets premium + PDF semaine</span></li>
+<li class="flex items-center gap-3 text-zinc-500 line-through min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-amber-500/10 text-amber-400 ring-1 ring-inset ring-amber-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg></span><span class="decoration-zinc-500/80">Accès direct à nos contacts perso (mail/DM)</span></li>
+<li class="flex items-center gap-3 text-zinc-500 line-through min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-amber-500/10 text-amber-400 ring-1 ring-inset ring-amber-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg></span><span class="decoration-zinc-500/80">Bilan complet 60min + plan sur-mesure</span></li>
+<li class="flex items-center gap-3 text-zinc-500 line-through min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-amber-500/10 text-amber-400 ring-1 ring-inset ring-amber-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg></span><span class="decoration-zinc-500/80">Check-in hebdo avec ajustements personnalisés</span></li>
+<li class="flex items-center gap-3 text-zinc-500 line-through min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-amber-500/10 text-amber-400 ring-1 ring-inset ring-amber-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg></span><span class="decoration-zinc-500/80">Corrections vidéo prioritaires</span></li>
+<li class="flex items-center gap-3 text-zinc-500 line-through min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-amber-500/10 text-amber-400 ring-1 ring-inset ring-amber-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg></span><span class="decoration-zinc-500/80">Accès prioritaire DM/email</span></li>
+</ul>
+<a class="mt-auto inline-flex w-full items-center justify-center rounded-2xl bg-emerald-500 px-5 py-3 text-sm font-semibold text-zinc-900 hover:bg-emerald-400" href="#checkout-nutrition">S’abonner — Nutrition</a>
+</div>
+<!-- Programme complet (CENTER) -->
+<div class="relative flex h-full flex-col rounded-3xl bg-gradient-to-b from-zinc-900 to-zinc-900/40 p-6 ring-1 ring-inset ring-white/10">
+<div class="absolute -top-3 left-1/2 -translate-x-1/2">
+<span class="rounded-full bg-emerald-500 px-3 py-1 text-xs font-semibold text-zinc-900 shadow-lg">Le plus populaire</span>
+</div>
+<div class="mb-4 flex items-center justify-between">
+<h3 class="text-xl font-extrabold text-white">Programme Complet</h3>
+</div>
+<div class="mb-4 flex items-baseline gap-2"><span class="text-xl font-semibold text-zinc-500 line-through"><span class="price"><span class="old-monthly line-through">59€</span><span class="old-yearly line-through">590€</span></span></span><span class="text-3xl font-extrabold text-emerald-400"><span class="price"><span class="price-monthly">39€ / mois</span><span class="price-yearly">390€ / an</span></span></span><span class="ml-2 rounded-full bg-emerald-500/10 px-2 py-0.5 text-xs font-semibold text-emerald-400 ring-1 ring-inset ring-emerald-500/30" id="countdown">24:00:00</span></div>
+<ul class="list-none pl-0 mb-6 space-y-2 text-zinc-300">
+<li class="flex items-center gap-3 text-zinc-300 min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></span><span>Module 3 Nutrition &amp; Métabolisme + extraits sommeil/récup</span></li>
+<li class="flex items-center gap-3 text-zinc-300 min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></span><span>Macros &amp; chrono-nutrition expliqués simplement</span></li>
+<li class="flex items-center gap-3 text-zinc-300 min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></span><span>Listes de courses &amp; modèles de journées</span></li>
+<li class="flex items-center gap-3 text-zinc-300 min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></span><span>Checklists hebdo</span></li>
+<li class="flex items-center gap-3 text-zinc-300 min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></span><span>Modules 1–7 complets + mises à jour illimitées</span></li>
+<li class="flex items-center gap-3 text-zinc-300 min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></span><span>Plans 12 semaines (3 niveaux)</span></li>
+<li class="flex items-center gap-3 text-zinc-300 min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></span><span>Plans 3/4/5 séances</span></li>
+<li class="flex items-center gap-3 text-zinc-300 min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></span><span>Carnets Sheets premium + PDF semaine</span></li>
+<li class="flex items-center gap-3 text-zinc-300 min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></span><span>Accès direct à nos contacts perso (mail/DM)</span></li>
+<li class="flex items-center gap-3 text-zinc-500 line-through min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-amber-500/10 text-amber-400 ring-1 ring-inset ring-amber-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg></span><span class="decoration-zinc-500/80">Bilan complet 60min + plan sur-mesure</span></li>
+<li class="flex items-center gap-3 text-zinc-500 line-through min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-amber-500/10 text-amber-400 ring-1 ring-inset ring-amber-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg></span><span class="decoration-zinc-500/80">Check-in hebdo avec ajustements personnalisés</span></li>
+<li class="flex items-center gap-3 text-zinc-500 line-through min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-amber-500/10 text-amber-400 ring-1 ring-inset ring-amber-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg></span><span class="decoration-zinc-500/80">Corrections vidéo prioritaires</span></li>
+<li class="flex items-center gap-3 text-zinc-500 line-through min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-amber-500/10 text-amber-400 ring-1 ring-inset ring-amber-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg></span><span class="decoration-zinc-500/80">Accès prioritaire DM/email</span></li>
+</ul>
+<a class="mt-auto inline-flex w-full items-center justify-center rounded-2xl bg-emerald-500 px-5 py-3 text-sm font-semibold text-zinc-900 hover:bg-emerald-400" href="#checkout-complet">S’abonner — Complet</a>
+</div>
+<!-- Coaching 1:1 (RIGHT) -->
+<div class="relative flex h-full flex-col rounded-3xl bg-gradient-to-b from-zinc-900 to-zinc-900/40 p-6 ring-1 ring-inset ring-white/10">
+<div class="absolute -top-3 left-1/2 -translate-x-1/2">
+<span class="rounded-full bg-emerald-500 px-3 py-1 text-xs font-semibold text-zinc-900 shadow-lg">Sur candidature</span>
+</div>
+<div class="mb-4 flex items-center justify-between">
+<h3 class="text-xl font-extrabold text-white">Coaching 1:1</h3>
+</div>
+<div class="mb-4 text-3xl font-extrabold text-emerald-400">—</div>
+<ul class="list-none pl-0 mb-6 space-y-2 text-zinc-300">
+<li class="flex items-center gap-3 text-zinc-300 min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></span><span>Module 3 Nutrition &amp; Métabolisme + extraits sommeil/récup</span></li>
+<li class="flex items-center gap-3 text-zinc-300 min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></span><span>Macros &amp; chrono-nutrition expliqués simplement</span></li>
+<li class="flex items-center gap-3 text-zinc-300 min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></span><span>Listes de courses &amp; modèles de journées</span></li>
+<li class="flex items-center gap-3 text-zinc-300 min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></span><span>Checklists hebdo</span></li>
+<li class="flex items-center gap-3 text-zinc-300 min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></span><span>Modules 1–7 complets + mises à jour illimitées</span></li>
+<li class="flex items-center gap-3 text-zinc-300 min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></span><span>Plans 12 semaines (3 niveaux)</span></li>
+<li class="flex items-center gap-3 text-zinc-300 min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></span><span>Plans 3/4/5 séances</span></li>
+<li class="flex items-center gap-3 text-zinc-300 min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></span><span>Carnets Sheets premium + PDF semaine</span></li>
+<li class="flex items-center gap-3 text-zinc-300 min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></span><span>Accès direct à nos contacts perso (mail/DM)</span></li>
+<li class="flex items-center gap-3 text-zinc-300 min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></span><span>Bilan complet 60min + plan sur-mesure</span></li>
+<li class="flex items-center gap-3 text-zinc-300 min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></span><span>Check-in hebdo avec ajustements personnalisés</span></li>
+<li class="flex items-center gap-3 text-zinc-300 min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></span><span>Corrections vidéo prioritaires</span></li>
+<li class="flex items-center gap-3 text-zinc-300 min-h-8 py-1 leading-tight"><span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/30"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></span><span>Accès prioritaire DM/email</span></li>
+</ul>
+<button class="mt-auto inline-flex w-full items-center justify-center rounded-2xl bg-emerald-500 px-5 py-3 text-sm font-semibold text-zinc-900 hover:bg-emerald-400"  data-open-gform="true" rel="noopener" target="_blank">Postuler — Coaching 1:1</button>
+</div>
+</div>
+<p class="mt-6 text-center text-sm text-zinc-500">Annuel disponible (2 mois offerts). Résiliation simple depuis l’espace membre. L’Annuel est à engagement d’un an.</p>
+</div>
+</section>
+<!-- BONUS -->
+<section class="bg-[radial-gradient(ellipse_at_bottom,rgba(16,185,129,0.06),transparent_60%)] py-20" id="bonus">
+<div class="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+<div class="mb-10 space-y-3 text-center">
+<p class="text-xs uppercase tracking-[0.25em] text-emerald-400/80">Bonus</p>
+<h2 class="text-3xl font-extrabold text-white sm:text-4xl">Accès à des ressources qui font la différence</h2>
+<p class="mx-auto max-w-2xl text-zinc-300/80">Des outils concrets pour accélérer ta progression et rester constant.</p>
+</div>
+<div class="grid gap-5 md:grid-cols-3">
+<div class="group overflow-hidden rounded-3xl bg-zinc-900/60 ring-1 ring-inset ring-white/10">
+<div class="flex h-40 w-full items-center justify-center bg-zinc-900/60"><img alt="Optimiser ses charges — visuel" class="w-full h-40 rounded-xl shadow-lg ring-1 ring-zinc-800/50 group-hover:scale-105 transition-transform duration-300 ease-in-out object-cover object-center" src="assets/optimiser_ses_charges.png"/ style=""></div>
+<div class="space-y-2 p-5"><h4 class="font-extrabold text-white">Optimiser ses charges</h4><p class="text-zinc-300/90">Sheets premium, carnets PDF, missions hebdo, quizz &amp; gamification.</p></div>
+</div>
+<div class="group overflow-hidden rounded-3xl bg-zinc-900/60 ring-1 ring-inset ring-white/10">
+<div class="flex h-40 w-full items-center justify-center bg-zinc-900/60"><img alt="Secrets de ton corps — visuel" class="w-full h-40 rounded-xl shadow-lg ring-1 ring-zinc-800/50 group-hover:scale-105 transition-transform duration-300 ease-in-out object-cover object-center" src="assets/secrets_de_ton_corps.png"/ style=""></div>
+<div class="space-y-2 p-5"><h4 class="font-extrabold text-white">Secrets de ton corps</h4><p class="text-zinc-300/90">Physiologie appliquée au terrain, simplifiée.</p></div>
+</div>
+<div class="group overflow-hidden rounded-3xl bg-zinc-900/60 ring-1 ring-inset ring-white/10">
+<div class="flex h-40 w-full items-center justify-center bg-zinc-900/60"><img alt="Code interne #005 — Testostérone — visuel" class="w-full h-40 rounded-xl shadow-lg ring-1 ring-zinc-800/50 group-hover:scale-105 transition-transform duration-300 ease-in-out object-cover object-center" src="assets/testosterone.png"/ style=""></div>
+<div class="space-y-2 p-5"><h4 class="font-extrabold text-white">Code interne #005 — Testostérone</h4><p class="text-zinc-300/90">Le fuel des dieux : bases validées &amp; pratiques.</p></div>
+</div>
+</div>
+</div>
+</section>
+<!-- TESTIMONIALS (Carousel) -->
+<section class="bg-zinc-950 py-20" id="testimonials">
+<div class="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+<div class="mb-10 space-y-3 text-center">
+<p class="text-xs uppercase tracking-[0.25em] text-emerald-400/80">Témoignages</p>
+<h2 class="text-3xl font-extrabold text-white sm:text-4xl">Ils ont franchi le pas. Et toi ?</h2>
+<p class="mx-auto max-w-2xl text-zinc-300/80">motivation, résultats, transformation.</p>
+</div>
+<div class="relative -mx-[calc(50vw-50%)] w-screen px-4 sm:px-6 lg:px-8"><div class="relative">
+<button class="flex items-center justify-center absolute left-4 top-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-500/30 hover:bg-emerald-500/25 hover:text-emerald-200 shadow-lg backdrop-blur" id="testiLeft">
+<svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M15 18l-6-6 6-6"></path></svg>
+</button>
+<div class="-mx-4 overflow-x-auto no-scrollbar px-6 lg:px-10 scroll-smooth snap-x snap-mandatory" id="testiContainer">
+<div class="flex gap-4 pb-2"><div class="min-w-[280px] md:min-w-[360px] snap-start rounded-2xl bg-white p-6 shadow-lg"><div class="text-emerald-500 mb-3">★★★★★</div><h3 class="font-bold text-zinc-900 mb-2">Un cap enfin clair</h3><p class="text-zinc-700 text-sm">“Je m’entraînais depuis des années sans vraiment savoir où j’allais. Là, j’ai appris à fixer un vrai objectif et à suivre un plan carré. En 2 mois, j’ai déjà repris le contrôle de mon physique : plus de force, un corps qui sèche, et surtout une stratégie que je peux tenir sur le long terme.”</p><p class="mt-4 text-xs text-zinc-500">— Thomas, 27 ans</p></div><div class="min-w-[280px] md:min-w-[360px] snap-start rounded-2xl bg-white p-6 shadow-lg"><div class="text-emerald-500 mb-3">★★★★★</div><h3 class="font-bold text-zinc-900 mb-2">Changer sans se priver</h3><p class="text-zinc-700 text-sm">“Je pensais qu’il fallait tout sacrifier pour avoir des résultats. En réalité, j’ai appris à manger mieux sans me frustrer, à écouter mon corps et à rester régulière. Résultat : j’ai perdu du gras, mes abdos commencent à se voir et je me sens plus légère et plus confiante que jamais.”</p><p class="mt-4 text-xs text-zinc-500">— Laura, 34 ans</p></div><div class="min-w-[280px] md:min-w-[360px] snap-start rounded-2xl bg-white p-6 shadow-lg"><div class="text-emerald-500 mb-3">★★★★★</div><h3 class="font-bold text-zinc-900 mb-2">Des performances qui explosent</h3><p class="text-zinc-700 text-sm">“Je croyais stagner à cause de la génétique… mais en corrigeant ma technique et en comprenant comment progresser intelligemment, j’ai franchi un cap énorme. Plus de douleurs, plus de doutes, et mes barres montent séance après séance. J’ai enfin l’impression de bâtir un vrai physique.”</p><p class="mt-4 text-xs text-zinc-500">— Karim, 22 ans</p></div><div class="min-w-[280px] md:min-w-[360px] snap-start rounded-2xl bg-white p-6 shadow-lg"><div class="text-emerald-500 mb-3">★★★★★</div><h3 class="font-bold text-zinc-900 mb-2">Une énergie nouvelle</h3><p class="text-zinc-700 text-sm">“Le plus gros changement ? Mon énergie. J’ai découvert comment le sommeil, l’alimentation et l’entraînement bien organisés transforment la journée entière. J’ai plus de concentration au travail, je dors mieux, et mes proches voient clairement que mon corps a changé.”</p><p class="mt-4 text-xs text-zinc-500">— Élodie, 31 ans</p></div><div class="min-w-[280px] md:min-w-[360px] snap-start rounded-2xl bg-white p-6 shadow-lg"><div class="text-emerald-500 mb-3">★★★★★</div><h3 class="font-bold text-zinc-900 mb-2">Un mental forgé</h3><p class="text-zinc-700 text-sm">“Je me suis rendu compte que la vraie clé, ce n’est pas la motivation mais la discipline. J’ai appris à installer des routines, à rester constant même quand je n’ai pas envie. Ça a tout changé : mon corps progresse, mais surtout je me sens plus solide dans ma tête.”</p><p class="mt-4 text-xs text-zinc-500">— Julien, 38 ans</p></div><div class="min-w-[280px] md:min-w-[360px] snap-start rounded-2xl bg-white p-6 shadow-lg"><div class="text-emerald-500 mb-3">★★★★★</div><h3 class="font-bold text-zinc-900 mb-2">Transformation totale</h3><p class="text-zinc-700 text-sm">“Je ne cherchais qu’à perdre un peu de poids, mais j’ai découvert bien plus. J’ai appris à mieux gérer mon stress, à utiliser ma force, à comprendre mon corps. En quelques semaines, j’ai minci, gagné en tonicité et en confiance. Aujourd’hui je me sens enfin alignée avec l’image que je veux renvoyer.”</p><p class="mt-4 text-xs text-zinc-500">— Camille, 24 ans</p></div><div class="min-w-[280px] md:min-w-[360px] snap-start rounded-2xl bg-white p-6 shadow-lg"><div class="text-emerald-500 mb-3">★★★★★</div><h3 class="font-bold text-zinc-900 mb-2">Une discipline retrouvée</h3><p class="text-zinc-700 text-sm">“Avant je repoussais toujours mes séances. J’étais constamment fatigué, démotivé. Après 4 semaines, j’ai retrouvé une rigueur que je n’avais pas connue depuis mes années de sport au lycée. Aujourd’hui, je ne me pose même plus la question : je m’entraîne, point.”</p><p class="mt-4 text-xs text-zinc-500">— Adrien, 33 ans</p></div><div class="min-w-[280px] md:min-w-[360px] snap-start rounded-2xl bg-white p-6 shadow-lg"><div class="text-emerald-500 mb-3">★★★★★</div><h3 class="font-bold text-zinc-900 mb-2">Un vrai suivi</h3><p class="text-zinc-700 text-sm">“Je m’attendais à des vidéos impersonnelles. En réalité, il y a un vrai accompagnement. Les réponses sont rapides, on ne se sent jamais seul.”</p><p class="mt-4 text-xs text-zinc-500">— Sophie, 47 ans</p></div><div class="min-w-[280px] md:min-w-[360px] snap-start rounded-2xl bg-white p-6 shadow-lg"><div class="text-emerald-500 mb-3">★★★★★</div><h3 class="font-bold text-zinc-900 mb-2">Accessible même débutant</h3><p class="text-zinc-700 text-sm">“Je n’avais jamais mis les pieds en salle. Les explications sont simples, les séances progressives : j’ai pris confiance dès le départ.”</p><p class="mt-4 text-xs text-zinc-500">— Mathieu, 21 ans</p></div><div class="min-w-[280px] md:min-w-[360px] snap-start rounded-2xl bg-white p-6 shadow-lg"><div class="text-emerald-500 mb-3">★★★★★</div><h3 class="font-bold text-zinc-900 mb-2">Transformation totale</h3><p class="text-zinc-700 text-sm">“Première fois que je souris devant le miroir : moins de gras, plus de muscle et un vrai changement d’état d’esprit.”</p><p class="mt-4 text-xs text-zinc-500">— Claire, 52 ans</p></div><div class="min-w-[280px] md:min-w-[360px] snap-start rounded-2xl bg-white p-6 shadow-lg"><div class="text-emerald-500 mb-3">★★★★★</div><h3 class="font-bold text-zinc-900 mb-2">Pratique et flexible</h3><p class="text-zinc-700 text-sm">“Je voyage souvent. Tout est sur mon téléphone : je peux m’entraîner partout. Ça a sauvé mon rythme de vie.”</p><p class="mt-4 text-xs text-zinc-500">— Nicolas, 32 ans</p></div><div class="min-w-[280px] md:min-w-[360px] snap-start rounded-2xl bg-white p-6 shadow-lg"><div class="text-emerald-500 mb-3">★★★★★</div><h3 class="font-bold text-zinc-900 mb-2">Un vrai déclic</h3><p class="text-zinc-700 text-sm">“Je procrastinais depuis des années. Là j’ai eu le déclic : -8 kg en 3 mois et une nouvelle image de moi.”</p><p class="mt-4 text-xs text-zinc-500">— Julie, 29 ans</p></div></div>
+</div>
+<button class="flex items-center justify-center absolute right-4 top-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-500/30 hover:bg-emerald-500/25 hover:text-emerald-200 shadow-lg backdrop-blur" id="testiRight">
+<svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M9 18l6-6-6-6"></path></svg>
+</button>
+</div>
+</div>
+</div></section>
+<!-- TRANSFORMATIONS (Carrousel) -->
+<section class="bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.06),transparent_60%)] py-20" id="modules">
+<div class="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+<div class="mb-10 space-y-3 text-center">
+<p class="text-xs uppercase tracking-[0.25em] text-emerald-400/80">Programme</p>
+<h2 class="text-3xl font-extrabold text-white sm:text-4xl">Tronc commun robuste, spécialisation intelligente</h2>
+<p class="mx-auto max-w-2xl text-zinc-300/80">La base pose le ciment. Ensuite on sculpte selon ton objectif.</p>
+</div>
+<div class="relative -mx-[calc(50vw-50%)] w-screen px-4 sm:px-6 lg:px-8"><div class="relative"><button class="flex items-center justify-center absolute left-4 top-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-500/30 hover:bg-emerald-500/25 hover:text-emerald-200 shadow-lg backdrop-blur" id="scrollLeft"><svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15 18l-6-6 6-6"></path></svg></button><div class="-mx-4 overflow-x-auto no-scrollbar px-6 lg:px-10 scroll-smooth" id="modulesContainer">
+<div class="flex snap-x snap-mandatory gap-4 pb-4"><div class="min-w-[270px] snap-start rounded-3xl bg-zinc-900/60 p-5 ring-1 ring-inset ring-white/10 md:min-w-[360px]"><div class="mb-2 text-sm text-emerald-400">01</div><h3 class="mb-2 text-lg font-extrabold text-white">MODULE 1 — INTRODUCTION &amp; OBJECTIFS</h3><p class="text-zinc-300/90"><strong>Mentalité</strong>, <strong>discipline</strong>, <strong>identité</strong> d’<strong>athlète</strong>, <strong>neurosciences</strong> de l’habitude, <strong>IF–THEN planning</strong>.
+
+Mise en place simple et claire de ton <strong>objectif</strong> (masse, sèche, recomposition). Tu reçois un cadre prêt à l’emploi, pensé pour éviter les erreurs et aller droit au résultat. Avec les outils de <strong>neurosciences</strong> et les stratégies de planification IF–THEN, ton cerveau se met en mode “automatique” : moins d’efforts mentaux, plus de constance.</p></div><div class="min-w-[270px] snap-start rounded-3xl bg-zinc-900/60 p-5 ring-1 ring-inset ring-white/10 md:min-w-[360px]"><div class="mb-2 text-sm text-emerald-400">02</div><h3 class="mb-2 text-lg font-extrabold text-white">MODULE 2 — MENTALITÉ DU GUERRIER</h3><p class="text-zinc-300/90">Discipline, <strong>motivation</strong>, <strong>identité</strong>, routines mentales, <strong>visualisation</strong>, effet cumulé.
+
+Décodage des hacks neuropsychologiques : déclencheurs de <strong>dopamine</strong> calibrés, systèmes anti-procrastination, <strong>protocoles</strong> de <strong>visualisation</strong> inspirés des <strong>neurosciences</strong> militaires. Tu découvriras la <strong>Mentalité</strong> Avancée : <strong>discipline</strong> 90 jours, <strong>confiance</strong> indestructible, et maîtrise des IF–THEN routines mentales.</p></div><div class="min-w-[270px] snap-start rounded-3xl bg-zinc-900/60 p-5 ring-1 ring-inset ring-white/10 md:min-w-[360px]"><div class="mb-2 text-sm text-emerald-400">03</div><h3 class="mb-2 text-lg font-extrabold text-white">MODULE 3 — LE PLAN D’ENTRAÎNEMENT DU GUERRIER</h3><p class="text-zinc-300/90"><strong>Hypertrophie</strong>, <strong>périodisation</strong>, <strong>auto-régulation</strong>, <strong>surcharge progressive</strong>, intensité, volume, fréquence.
+
+Trois <strong>protocoles</strong> (Débutant, Intermédiaire, Avancé) construits comme des campagnes militaires. Programme Hebdo structuré (3/4/5 séances), <strong>périodisation</strong> scientifique et méthodes de <strong>récupération</strong> actives. Tu auras aussi le <strong>Programme de Maintien</strong> — conçu pour ne rien perdre, même en vacances, déplacements ou blessure.</p></div><div class="min-w-[270px] snap-start rounded-3xl bg-zinc-900/60 p-5 ring-1 ring-inset ring-white/10 md:min-w-[360px]"><div class="mb-2 text-sm text-emerald-400">04</div><h3 class="mb-2 text-lg font-extrabold text-white">MODULE 4 — NUTRITION DE GUERRE</h3><p class="text-zinc-300/90"><strong>Calories</strong>, <strong>macronutriments</strong>, <strong>micronutriments</strong>, timing, suppléments essentiels.
+
+Fini les régimes compliqués. Tu découvres ton <strong>TDEE</strong> et tes <strong>macros personnalisés</strong> en quelques minutes, avec des <strong><strong>recettes</strong></strong> rapides et délicieuses déjà prêtes, plus des <strong>listes de courses</strong> toutes faites. Tu comprends enfin comment manger pour ton <strong>objectif</strong> sans te priver, et surtout de façon durable. Hacks hormonaux via les nutriments (<strong><strong>testostérone</strong></strong>, leptine, cortisol).</p></div><div class="min-w-[270px] snap-start rounded-3xl bg-zinc-900/60 p-5 ring-1 ring-inset ring-white/10 md:min-w-[360px]"><div class="mb-2 text-sm text-emerald-400">05</div><h3 class="mb-2 text-lg font-extrabold text-white">MODULE 5 — LE SOMMEIL : LE GUERRIER SE REPOSE POUR MIEUX RÉGNER</h3><p class="text-zinc-300/90">Cycles, <strong>récupération</strong>, hormones, hygiène de <strong>sommeil</strong>, stress.
+
+Ingénierie du <strong>sommeil</strong> : protocole exclusif pour booster <strong>GH</strong> &amp; <strong><strong>testostérone</strong></strong>, mise en place de <strong>routines nocturnes</strong> secrètes utilisées par les performeurs d’élite. Tu découvriras comment transformer tes nuits en un champ de régénération absolue et rester opérationnel même quand tout semble t’épuiser.</p></div><div class="min-w-[270px] snap-start rounded-3xl bg-zinc-900/60 p-5 ring-1 ring-inset ring-white/10 md:min-w-[360px]"><div class="mb-2 text-sm text-emerald-400">06</div><h3 class="mb-2 text-lg font-extrabold text-white">MODULE 6 — CONCLUSION &amp; PROCHAINE ÉTAPE</h3><p class="text-zinc-300/90"><strong>Bilan</strong>, <strong>consolidation</strong>, passage au niveau supérieur.
+
+Tu ne finis pas le programme : tu passes à l’étape suivante. On t’aide à faire le point, consolider tes acquis et planifier tes prochaines 6 à 8 semaines. Tu rejoins aussi la <strong>communauté privée</strong> pour garder <strong>motivation</strong> et <strong>inspiration</strong> sur le long terme.</p></div><div class="min-w-[270px] snap-start rounded-3xl bg-zinc-900/60 p-5 ring-1 ring-inset ring-white/10 md:min-w-[360px]"><div class="mb-2 text-sm text-emerald-400">07</div><h3 class="mb-2 text-lg font-extrabold text-white">MODULE 7 — BONUS</h3><p class="text-zinc-300/90"><strong>Hacks avancés</strong>, <strong>récupération</strong>, <strong>biohacking</strong>, <strong>connexion neuromusculaire</strong>.
+
+Protocoles secrets pour court-circuiter la stagnation. Optimisation neuromusculaire (connexion esprit-muscle), biohacks pour exploser ta force, tests hormonaux (dont le code interne #005 — <strong><strong>testostérone</strong></strong>, le <strong>fuel des dieux</strong>). Ajout des routines de relance. Des armes que très peu connaissent, mais qui feront la différence pour toi.</p></div><div class="min-w-[270px] snap-start rounded-3xl bg-zinc-900/60 p-5 ring-1 ring-inset ring-white/10 md:min-w-[360px]"><div class="mb-2 text-sm text-emerald-400">∞</div><h3 class="mb-2 text-lg font-extrabold text-white">MODULES INFINIS</h3><p class="text-zinc-300/90"><strong>Mise à jour récurrente</strong>.
+
+Tu n’achètes pas un simple programme figé : tu rejoins un <strong>système vivant</strong>. Des mises à jour régulières, de nouveaux <strong>protocoles</strong>, des <strong><strong>recettes</strong></strong> et des <strong>outils bonus</strong> sont ajoutés pour que tu progresses toujours et que tu ne sois jamais bloqué.</p></div></div>
+</div><button class="flex items-center justify-center absolute right-4 top-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-500/30 hover:bg-emerald-500/25 hover:text-emerald-200 shadow-lg backdrop-blur" id="scrollRight"><svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 18l6-6-6-6"></path></svg></button></div></div>
+</div>
+</section>
+
+<script>
+  (function(){
+    var c = document.getElementById('testiContainer');
+    var L = document.getElementById('testiLeft');
+    var R = document.getElementById('testiRight');
+    if (c && L && R){
+      var step = 380;
+      L.addEventListener('click', function(){ c.scrollBy({left: -step, behavior: 'smooth'}); });
+      R.addEventListener('click', function(){ c.scrollBy({left: step, behavior: 'smooth'}); });
+    }
+  })();
+</script>
+<!-- FAQ Anti-Objections (v2) -->
+<section class="relative isolate bg-zinc-950 py-20" id="faq">
+<div class="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+<div class="mb-10 space-y-3 text-center">
+<p class="text-xs uppercase tracking-[0.25em] text-emerald-400/80">FAQ</p>
+<h2 class="text-3xl font-extrabold text-white sm:text-4xl">FAQ – Réponses franches, zéro excuse</h2>
+<p class="mx-auto max-w-2xl text-zinc-300/80">On clarifie. On cadre. Tu exécutes.</p>
+</div>
+<div class="grid gap-8 md:grid-cols-2">
+<!-- Résultats & Engagement -->
+<div>
+<h4 class="mb-4 text-sm font-semibold uppercase tracking-wider text-emerald-400">Résultats &amp; Engagement</h4>
+<details class="faq-card mb-3 overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40 p-4">
+<summary class="faq-summary list-none font-semibold text-white">
+            En combien de temps je vois des résultats ?
+            <svg class="faq-chevron h-5 w-5 text-emerald-400" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+</summary>
+<p class="mt-3 text-zinc-300">
+            Programme structuré sur <strong>12 semaines</strong> :<br/>
+<strong>S1–2</strong> : fondations + <em>connexion muscle-cerveau</em>.<br/>
+<strong>S3–6</strong> : technique solide, charges en hausse, silhouette qui bouge.<br/>
+<strong>S7–12</strong> : recomposition visible, énergie + force qui montent.<br/>
+            On suit des <strong>preuves mesurables</strong> (charges, reps, photos, tour de taille, sommeil, énergie) pour valider tes progrès.
+          </p>
+</details>
+<details class="faq-card mb-3 overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40 p-4">
+<summary class="faq-summary list-none font-semibold text-white">
+            Et si je n’ai aucun résultat ?
+            <svg class="faq-chevron h-5 w-5 text-emerald-400" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+</summary>
+<p class="mt-3 text-zinc-300">
+            Si tu appliques honnêtement et que rien ne bouge, tu es couvert par la <strong>garantie « Transformé ou remboursé »</strong>. 
+            On t’accompagne d’abord avec un plan correctif. Si ça ne décolle pas, <strong>remboursement de la dernière période</strong>. 
+            Risque ≤ 0. Excuse ≤ 0.
+          </p>
+</details>
+<details class="faq-card mb-3 overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40 p-4">
+<summary class="faq-summary list-none font-semibold text-white">
+            Je manque de motivation…
+            <svg class="faq-chevron h-5 w-5 text-emerald-400" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+</summary>
+<p class="mt-3 text-zinc-300">
+            On ne dépend pas de la motivation ; on installe des <strong>systèmes</strong> : plans 3/4/5 séances, missions hebdo, checklists, rappels, 
+            suivi rapide. Tu n’as plus à réfléchir — <strong>tu exécutes</strong>.
+          </p>
+</details>
+<details class="faq-card mb-3 overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40 p-4">
+<summary class="faq-summary list-none font-semibold text-white">
+            Je commence… et j’abandonne ?
+            <svg class="faq-chevron h-5 w-5 text-emerald-400" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+</summary>
+<p class="mt-3 text-zinc-300">
+            Seul, c’est facile d’abandonner. Dans une <strong>meute</strong> (communauté privée, défis, entraide), c’est rare. 
+            Les <strong>missions 24–48 h</strong> te remettent sur rails ; en 1:1 tu as un support prioritaire.
+          </p>
+</details>
+<details class="faq-card mb-3 overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40 p-4">
+<summary class="faq-summary list-none font-semibold text-white">
+            Cardio vs muscu : je veux surtout perdre du gras.
+            <svg class="faq-chevron h-5 w-5 text-emerald-400" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+</summary>
+<p class="mt-3 text-zinc-300">
+            Le cardio brûle sur le moment. La muscu <strong>augmente ta dépense 24/7</strong> et sculpte la silhouette. 
+            On combine les deux intelligemment (HIIT/zone 2) + nutrition cadrée pour une <strong>perte de gras nette</strong>.
+          </p>
+</details>
+</div>
+<!-- Temps & Contraintes -->
+<div>
+<h4 class="mb-4 text-sm font-semibold uppercase tracking-wider text-emerald-400">Temps &amp; Contraintes</h4>
+<details class="faq-card mb-3 overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40 p-4">
+<summary class="faq-summary list-none font-semibold text-white">
+            Je n’ai pas le temps.
+            <svg class="faq-chevron h-5 w-5 text-emerald-400" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+</summary>
+<p class="mt-3 text-zinc-300">
+            Séances <strong>45–60 min utiles</strong>, options <strong>« commando » 20–30 min</strong>. 
+            <strong>2 séances bien faites &gt; 5 bâclées</strong>. Tu ne perds pas du temps, tu en gagnes (énergie, focus, productivité).
+          </p>
+</details>
+<details class="faq-card mb-3 overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40 p-4">
+<summary class="faq-summary list-none font-semibold text-white">
+            Je voyage / planning instable.
+            <svg class="faq-chevron h-5 w-5 text-emerald-400" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+</summary>
+<p class="mt-3 text-zinc-300">
+            Pack <strong>« Vacances »</strong> (sans matériel) + variantes selon l’équipement disponible, 
+            et <strong>protocole de rattrapage</strong> pour revenir sur les rails dès ton retour.
+          </p>
+</details>
+<details class="faq-card mb-3 overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40 p-4">
+<summary class="faq-summary list-none font-semibold text-white">
+            Pas de salle / pas de matériel ?
+            <svg class="faq-chevron h-5 w-5 text-emerald-400" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+</summary>
+<p class="mt-3 text-zinc-300">
+            Plus de la moitié des membres s’entraînent <strong>à la maison</strong>. 
+            Variantes <strong>poids du corps</strong> + accessoires simples (élastiques/traction) = progrès réels.
+          </p>
+</details>
+<details class="faq-card mb-3 overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40 p-4">
+<summary class="faq-summary list-none font-semibold text-white">
+            Débutant : trop dur ? Avancé : utile quand même ?
+            <svg class="faq-chevron h-5 w-5 text-emerald-400" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+</summary>
+<p class="mt-3 text-zinc-300">
+<strong>Débutant</strong> : progression graduelle (geste → volume → intensité).<br/>
+<strong>Avancé</strong> : périodisation, blocs d’intensification, gestion fine de la fatigue (RPE/RIR/HRV), stratégies anti-plateau.
+          </p>
+</details>
+<details class="faq-card mb-3 overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40 p-4">
+<summary class="faq-summary list-none font-semibold text-white">
+            J’ai des douleurs (dos, genoux, épaules)…
+            <svg class="faq-chevron h-5 w-5 text-emerald-400" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+</summary>
+<p class="mt-3 text-zinc-300">
+            Variantes <strong>sécurisées</strong> + travail de <strong>mobilité ciblée</strong>. 
+            Si douleur persistante → avis médical. En 1:1, <strong>corrections vidéo prioritaires</strong>.
+          </p>
+</details>
+</div>
+<!-- Nutrition & Argent -->
+<div class="md:col-span-2">
+<h4 class="mb-4 text-sm font-semibold uppercase tracking-wider text-emerald-400">Nutrition &amp; Argent</h4>
+<details class="faq-card mb-3 overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40 p-4">
+<summary class="faq-summary list-none font-semibold text-white">
+            « C’est cher… »
+            <svg class="faq-chevron h-5 w-5 text-emerald-400" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+</summary>
+<p class="mt-3 text-zinc-300">
+            Le vrai coût ? <strong>Rester bloqué</strong> dans un corps que tu n’assumes pas : confiance, opportunités, santé. 
+            Ici, c’est un <strong>investissement</strong> : moins qu’un resto par mois, retour sur investissement visible dans le miroir. 
+            Et tu es couvert par la <strong>garantie « Transformé ou remboursé »</strong>.
+          </p>
+</details>
+<details class="faq-card mb-3 overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40 p-4">
+<summary class="faq-summary list-none font-semibold text-white">
+            Mensuel ou Annuel : que choisir ?
+            <svg class="faq-chevron h-5 w-5 text-emerald-400" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+</summary>
+<p class="mt-3 text-zinc-300">
+            👉 <strong>Mensuel</strong> : flexible, tu arrêtes quand tu veux, directement depuis ton espace membre.  
+            👉 <strong>Annuel</strong> : engagement fort = <strong>2 mois offerts</strong>. Tu verrouilles ton prix, et tu envoies un signal clair à toi-même : « cette année, je transforme mon corps ».  
+            <em>Ceux qui choisissent l’annuel obtiennent 38% de meilleurs résultats en moyenne</em> — parce qu’ils ont mis “skin in the game”.
+          </p>
+</details>
+<details class="faq-card mb-3 overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40 p-4">
+<summary class="faq-summary list-none font-semibold text-white">
+            Comment fonctionne l’accès ?
+            <svg class="faq-chevron h-5 w-5 text-emerald-400" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+</summary>
+<p class="mt-3 text-zinc-300">
+            Paiement validé → <strong>accès immédiat</strong> aux modules, plans, <em>Sheets</em>, PDF et bonus. 
+            Connexion depuis mobile/ordi, 24/7.
+          </p>
+</details>
+<details class="faq-card mb-3 overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40 p-4">
+<summary class="faq-summary list-none font-semibold text-white">
+            Essai gratuit / remboursement ?
+            <svg class="faq-chevron h-5 w-5 text-emerald-400" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+</summary>
+<p class="mt-3 text-zinc-300">
+            Pas d’essai gratuit : on livre des <strong>preuves</strong>, pas des promesses. 
+            En revanche, <strong>garantie Transformé ou remboursé</strong> si tu appliques sans progrès mesurable.
+          </p>
+</details>
+<details class="faq-card mb-3 overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40 p-4">
+<summary class="faq-summary list-none font-semibold text-white">
+            Faut-il acheter des compléments ? Combien de repas par jour ?
+            <svg class="faq-chevron h-5 w-5 text-emerald-400" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+</summary>
+<p class="mt-3 text-zinc-300">
+<strong>Base = l’assiette</strong>. Créatine, whey (pratique) et oméga-3 si carence, c’est tout. 
+            <strong>2 à 4 repas/jour</strong> selon ton rythme. <strong>Simplicité &gt; perfection</strong>. 
+            Tu reçois listes de courses + modèles de journées.
+          </p>
+</details>
+</div>
+</div>
+</div>
+</section>
+<!-- FINAL CTA -->
+<section class="relative isolate overflow-hidden py-20">
+<div class="pointer-events-none absolute inset-0 -z-10 opacity-20" style="background: center/cover no-repeat"></div>
+<div class="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-zinc-950/60 to-zinc-950"></div>
+<div class="mx-auto w-full max-w-6xl px-4 text-center sm:px-6 lg:px-8">
+<h3 class="mx-auto max-w-3xl text-3xl font-extrabold text-white">Prêt à entrer dans l’arène ?</h3>
+<p class="mx-auto mt-3 max-w-xl text-zinc-300">Choisis ta porte d’entrée et commence aujourd’hui. La version que tu veux être t’attend de l’autre côté.</p>
+<div class="mt-6 flex flex-wrap justify-center gap-3">
+<a class="mt-auto inline-flex items-center justify-center rounded-2xl bg-emerald-500 px-5 py-3 text-sm font-semibold text-zinc-900 hover:bg-emerald-400" href="#offers">Programme complet</a>
+<button class="mt-auto inline-flex items-center justify-center rounded-2xl bg-zinc-800/60 px-5 py-3 text-sm font-semibold text-zinc-100 ring-1 ring-inset ring-white/10 hover:bg-zinc-800/80"  data-open-gform="true" rel="noopener" target="_blank">Coaching privé 1:1</button>
+</div>
+</div>
+</section>
+<!-- FOOTER -->
+<script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Mobile nav toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileNav = document.getElementById('mobileNav');
+    if (menuBtn) { menuBtn.addEventListener('click', () => mobileNav.classList.toggle('hidden')); }
+
+    // Reading progress bar
+    const progress = document.getElementById('progress');
+    const onScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const p = Math.max(0, Math.min(1, scrollTop / docHeight));
+      if (progress) progress.style.width = (p * 100) + '%';
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // Scrollspy via IntersectionObserver
+    const spyLinks = document.querySelectorAll('[data-spy]');
+    const sections = ['modules','kpis','offers','bonus','faq'].map(id => document.getElementById(id));
+    const activate = id => {
+      spyLinks.forEach(a => {
+        if(a.getAttribute('data-spy') === id){
+          a.classList.add('text-emerald-400','font-bold');
+          a.classList.remove('text-zinc-200');
+        } else {
+          a.classList.remove('text-emerald-400','font-bold');
+          a.classList.add('text-zinc-200');
+        }
+      });
+    };
+    const obs = new IntersectionObserver(entries => {
+      const visible = entries.filter(e => e.isIntersecting).sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if(visible && visible.target && visible.target.id){ activate(visible.target.id); }
+    }, { rootMargin: '-40% 0px -50% 0px', threshold: [0,0.25,0.5,0.75,1] });
+    sections.forEach(s => s && obs.observe(s));
+
+    // CountUp when in view
+    function animateCount(el){
+      const target = parseFloat(el.getAttribute('data-target')) || 0;
+      const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+      const prefix = el.getAttribute('data-prefix') || '';
+      const suffix = el.getAttribute('data-suffix') || '';
+      const duration = 1200; // ms
+      const start = performance.now();
+      function tick(now){
+        const t = Math.min(1, (now - start) / duration);
+        const val = target * t;
+        el.textContent = prefix + val.toFixed(decimals) + suffix;
+        if(t < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+    document.querySelectorAll('[data-count]').forEach(el=>{
+      const io = new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){animateCount(el); io.unobserve(el);}})},{threshold:.4});
+      io.observe(el);
+    });
+  </script>
+<script>
+// --- GOWF Modules slider arrows ---
+(function(){
+  const container = document.getElementById('modulesContainer');
+  const leftBtn = document.getElementById('scrollLeft');
+  const rightBtn = document.getElementById('scrollRight');
+  if(!container || !leftBtn || !rightBtn) return;
+
+  const STEP = Math.max(300, Math.floor(container.clientWidth * 0.7));
+
+  function updateArrows(){
+    const maxScroll = container.scrollWidth - container.clientWidth;
+    const atStart = container.scrollLeft <= 2;
+    const atEnd = container.scrollLeft >= maxScroll - 2;
+    leftBtn.style.opacity = atStart ? 0.35 : 1;
+    rightBtn.style.opacity = atEnd ? 0.35 : 1;
+    leftBtn.style.pointerEvents = atStart ? 'none' : 'auto';
+    rightBtn.style.pointerEvents = atEnd ? 'none' : 'auto';
+  }
+
+  leftBtn.addEventListener('click', () => container.scrollBy({ left: -STEP, behavior: 'smooth' }));
+  rightBtn.addEventListener('click', () => container.scrollBy({ left: STEP, behavior: 'smooth' }));
+  container.addEventListener('scroll', updateArrows);
+  window.addEventListener('resize', updateArrows);
+  // init after layout
+  setTimeout(updateArrows, 0);
+})();
+</script>
+<footer class="border-t border-white/10 bg-zinc-950/70">
+<div class="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 py-8 text-sm text-zinc-400 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+<div>© 2025 <span class="font-semibold text-white">Gods of War Fit™</span> — Tous droits réservés.</div>
+<nav class="flex flex-wrap gap-x-6 gap-y-2">
+<a class="hover:text-white" href="./cgv.html">CGV</a>
+<a class="hover:text-white" href="./mentions-legales.html">Mentions légales</a>
+<a class="hover:text-white" href="./politique-confidentialite.html">Confidentialité</a>
+<a class="hover:text-white" href="#faq">FAQ</a>
+<a class="hover:text-white" href="#offers">Offres</a>
+<a class="hover:text-white" href="#modules">Programme</a>
+</nav>
+</div>
+</footer>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const els = document.querySelectorAll('[data-target]');
+  const DURATION = 1500; // ms
+  const easeOutQuad = t => t*(2-t);
+
+  function animateEl(el){
+    const target = parseFloat(el.getAttribute('data-target'));
+    if (isNaN(target)) return;
+    const decimals = (el.getAttribute('data-decimals') || (String(target).split('.')[1]?.length || 0)) | 0;
+    const prefix = el.getAttribute('data-prefix') || '';
+    const suffix = el.getAttribute('data-suffix') || '';
+    const start = performance.now();
+
+    function frame(now){
+      const progress = Math.min(1, (now - start) / DURATION);
+      const eased = easeOutQuad(progress);
+      const value = (target * eased).toFixed(decimals);
+      el.textContent = `${prefix}${value}${suffix}`;
+      if (progress < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  const io = new IntersectionObserver((entries, obs) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        animateEl(e.target);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.45 });
+
+  els.forEach(el => io.observe(el));
+});
+</script>
+<script>
+(function(){
+  function startCountdown(duration, display) {
+    var timer = duration, minutes, seconds;
+    setInterval(function () {
+      minutes = parseInt(timer / 60, 10);
+      seconds = parseInt(timer % 60, 10);
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+      if (display) display.textContent = minutes + ":" + seconds;
+      if (--timer < 0) { timer = duration; }
+    }, 1000);
+  }
+  function init(){
+    var el = document.getElementById('countdown');
+    if (el){ startCountdown(60*24, el); }
+  }
+  if (document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
+</script>
+<script>
+(function(){
+  var offers = document.getElementById('offers');
+  var toggle = document.getElementById('billingToggle');
+  var knob   = document.getElementById('billingKnob');
+  var lblM = document.getElementById('lblMonthly');
+  var lblY = document.getElementById('lblYearly');
+  if(!offers || !toggle || !knob) return;
+
+  function setLabels(isYearly){
+    lblM && (lblM.className = isYearly ? "text-sm font-medium text-zinc-500" : "text-sm font-semibold text-white");
+    lblY && (lblY.className = isYearly ? "text-sm font-semibold text-white" : "text-sm font-medium text-zinc-500");
+  }
+
+  function update(isYearly){
+    offers.setAttribute('data-billing', isYearly ? 'annual' : 'monthly');
+    toggle.setAttribute('aria-pressed', isYearly ? 'true' : 'false');
+    toggle.classList.toggle('bg-emerald-500', isYearly);
+    toggle.classList.toggle('bg-zinc-700', !isYearly);
+    knob.classList.toggle('translate-x-7', isYearly);
+    knob.classList.toggle('translate-x-1', !isYearly);
+    setLabels(isYearly);
+  }
+
+  var state = false;
+  toggle.addEventListener('click', function(){ state = !state; update(state); });
+  lblM && lblM.addEventListener('click', function(){ state=false; update(state); });
+  lblY && lblY.addEventListener('click', function(){ state=true; update(state); });
+
+  // init
+  update(false);
+})();
+</script>
+
+
+
+
+
+
+
+
+
+<script>
+(() => {
+  const slides = document.getElementById('gwfSlides');
+  if (!slides) return;
+  const prev = document.getElementById('gwfPrev');
+  const next = document.getElementById('gwfNext');
+  const dotsWrap = document.getElementById('gwfDots');
+  const total = slides.children.length;
+  let i = 0;
+
+  // build dots (clear first)
+  const dots = [];
+  if (dotsWrap) dotsWrap.innerHTML = '';
+  for (let n = 0; n < total; n++) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'h-2.5 w-2.5 rounded-full ring-1 ring-inset ring-emerald-500/30 bg-zinc-700 aria-selected:bg-emerald-400 aria-selected:ring-emerald-400/60 transition-colors';
+    b.setAttribute('aria-label', `Aller à la slide ${n+1}`);
+    b.addEventListener('click', () => go(n));
+    dotsWrap.appendChild(b);
+    dots.push(b);
+  }
+
+  const updateDots = () => {
+    dots.forEach((d, idx) => {
+      if (idx === i) d.setAttribute('aria-selected', 'true');
+      else d.removeAttribute('aria-selected');
+    });
+  };
+
+  const go = (n) => {
+    i = (n + total) % total;
+    slides.style.transform = `translateX(-${i * 100}%)`;
+    updateDots();
+  };
+
+  prev && prev.addEventListener('click', () => go(i - 1));
+  next && next.addEventListener('click', () => go(i + 1));
+
+  // Swipe (mobile)
+  let startX = null;
+  slides.addEventListener('touchstart', (e)=> startX = e.touches[0].clientX, {passive:true});
+  slides.addEventListener('touchend', (e)=> {
+    if (startX === null) return;
+    const dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 40) go(i + (dx < 0 ? 1 : -1));
+    startX = null;
+  });
+
+  // Keyboard
+  window.addEventListener('keydown', (e)=>{
+    if (e.key === 'ArrowRight') go(i + 1);
+    if (e.key === 'ArrowLeft') go(i - 1);
+  });
+
+  // init
+  updateDots();
+})();
+</script>
+
+<!-- MODAL: Coaching 1:1 Application (Google Form) -->
+<div id="gformModal" class="fixed inset-0 z-[60] hidden">
+  <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" data-close-gform="true"></div>
+  <div class="relative mx-auto my-6 h-[86vh] w-[94vw] max-w-4xl overflow-hidden rounded-3xl bg-zinc-900 ring-1 ring-white/10 shadow-2xl">
+    <div class="flex items-center justify-between border-b border-white/10 bg-zinc-900/80 px-4 py-3">
+      <h4 class="text-white font-semibold">Candidature — Coaching privé 1:1</h4>
+      <button aria-label="Fermer" class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-zinc-800 text-zinc-200 ring-1 ring-inset ring-white/10 hover:bg-zinc-700" data-close-gform="true">✕</button>
+    </div>
+    <div class="h-[calc(86vh-52px)] w-full bg-black">
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSep0KOxE6T_U3VsulauQtnps4zb47NgAaCaFDaLW5S9xjznBg/viewform?embedded=true" class="h-full w-full" frameborder="0" marginheight="0" marginwidth="0">Chargement…</iframe>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function(){
+    const modal = document.getElementById('gformModal');
+    if(!modal) return;
+    function openModal(){ modal.classList.remove('hidden'); document.body.style.overflow='hidden'; }
+    function closeModal(){ modal.classList.add('hidden'); document.body.style.overflow=''; }
+    document.querySelectorAll('[data-open-gform="true"]').forEach(el=>{
+      el.addEventListener('click', (e)=>{ e.preventDefault(); openModal(); });
+    });
+    modal.querySelectorAll('[data-close-gform="true"]').forEach(el=>{
+      el.addEventListener('click', closeModal);
+    });
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal();
+    });
+  })();
+</script>
+
+
+<script>
+(function(){
+  const el = document.getElementById("countdown");
+  if(!el) return;
+  let remaining = 24 * 60 * 60; // 24 hours in seconds
+  function update(){
+    let hrs = Math.floor(remaining/3600);
+    let mins = Math.floor((remaining%3600)/60);
+    let secs = remaining%60;
+    el.textContent = String(hrs).padStart(2,"0")+":"+String(mins).padStart(2,"0")+":"+String(secs).padStart(2,"0");
+    if(remaining>0){ remaining--; setTimeout(update,1000); }
+  }
+  update();
+})();
+</script>
+
+</body>
+</html>
